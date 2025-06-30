@@ -26,8 +26,11 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Value("${app.client.url}")
-    private String wepAppUrl;
+    @Value("${app.client.public.url}")
+    private String webAppUrl;
+
+    @Value("{app.client.localhost.url}")
+    private String localhost;
 
     private final AuthRequestFilter authRequestFilter;
 
@@ -77,7 +80,7 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(false);
-        config.setAllowedOriginPatterns( List.of(wepAppUrl) );
+        config.setAllowedOriginPatterns( List.of(webAppUrl, localhost) );
         config.setAllowedHeaders( List.of("Authorization", "Cache-Control", "Content-Type") );
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setExposedHeaders( List.of("Authorization") );
