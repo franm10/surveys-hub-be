@@ -129,6 +129,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <image>
+                        <name>gcr.io/surveys-hub/surveys-hub-be</name>
+                    </image>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -139,5 +142,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
