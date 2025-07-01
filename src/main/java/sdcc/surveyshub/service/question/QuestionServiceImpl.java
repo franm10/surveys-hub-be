@@ -51,4 +51,14 @@ public class QuestionServiceImpl implements QuestionService {
                 .toList();
     }
 
+    @Override
+    public List<QuestionResponse> getQuestionsFromSurveyByAdmin(String surveyId) {
+        Survey s = surveyDao.findById(surveyId).orElseThrow(() -> new NotFoundException("Resource not found"));
+
+        return questionDao.findAllBySurveyId(surveyId)
+                .stream()
+                .map(questionMapper::toResponse)
+                .toList();
+    }
+
 }

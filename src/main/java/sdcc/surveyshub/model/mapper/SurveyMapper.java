@@ -33,13 +33,11 @@ public interface SurveyMapper {
     @Mapping(target = "invitedEmails", expression = "java(req.invitedEmails() != null ? new ArrayList<>(new HashSet<>(req.invitedEmails())) : new ArrayList<>())")
     Survey toEntity(SurveyRequest req, String ownerUid, String ownerEmail);
 
-    @Mapping(target = "questions", ignore = true)
     @Mapping(target = "status", expression = "java(s.getStatus().toString())")
     @Mapping(target = "pendingApprovalEmails", defaultExpression = "java(List.of())")
     @Mapping(target = "invitedEmails", defaultExpression = "java(List.of())")
     SurveyResponse toResponse(Survey s);
 
-    @Mapping(target = "questions", ignore = true)
     @Mapping(target = "status", expression = "java(s.getStatus().toString())")
     @Mapping(target = "invitedToken", ignore = true)
     @Mapping(target = "pendingApprovalEmails", ignore = true)

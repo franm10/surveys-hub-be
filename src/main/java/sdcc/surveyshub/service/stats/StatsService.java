@@ -16,4 +16,6 @@ public interface StatsService {
 
     StatsResponse getStatsFromPublicSurvey(String surveyId);
 
+    StatsResponse getStatsFromSurveyByAdmin(String surveyId);
+
 }

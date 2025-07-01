@@ -11,9 +11,6 @@ public record SurveyResponse(
         String description,
         int numberOfQuestions,
 
-        //TODO: delete is not used
-        List<QuestionResponse> questions,
-
         String status,
         Instant expirationDate,
 

@@ -73,4 +73,14 @@ public class StatsServiceImpl implements StatsService {
         return statsMapper.toResponse(s, q);
     }
 
+    @Override
+    public StatsResponse getStatsFromSurveyByAdmin(String surveyId) {
+        List<Question> q = questionDao.findAllBySurveyId(surveyId);
+        Stats s = statsDao.findBySurveyId(surveyId);
+        if (s == null) {
+            throw new NotFoundException("Stats non trovate per survey " + surveyId);
+        }
+        return statsMapper.toResponse(s, q);
+    }
+
 }

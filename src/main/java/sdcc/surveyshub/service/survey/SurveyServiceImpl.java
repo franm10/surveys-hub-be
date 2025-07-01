@@ -69,7 +69,7 @@ public class SurveyServiceImpl implements SurveyService {
                 saveAllImages( results.imagesToUpload() );
             }catch( UploadImageException e ) {
                 log.warn("[createSurvey] Error to saving image. Rollback survey creation: {}", e.getMessage());
-                deleteSurvey(s.getId());
+                rollbackSurvey(s.getId());
                 throw e;
             }
         }
@@ -133,7 +133,7 @@ public class SurveyServiceImpl implements SurveyService {
         }
     }
 
-    private void deleteSurvey(String surveyId) {
+    private void rollbackSurvey(String surveyId) {
         questionDao.deleteAllFromSurvey(surveyId);
         surveyDao.deleteById(surveyId);
         bucketService.deleteFolder(surveyId);
@@ -342,13 +342,21 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
 /// **************************************************
-///         METHOD: CHANGE VISIBILITY SURVEY
+///         METHOD: ADMIN GET ALL SURVEYS
 /// **************************************************
 
+    @Override
+    public List<SurveyResponse> getAllSurveys() {
+        return surveyDao.findAll()
+                .stream()
+                .map(surveyMapper::toResponseWithoutSensitiveData)
+                .toList();
+    }
 
+    @Override
+    public void deleteSurvey(String surveyId) {
+        Survey s = surveyDao.findById(surveyId).orElseThrow(() -> new NotFoundException("Resource not found"));
+        surveyDao.deleteById(surveyId);
+    }
 
-
-/// **************************************************
-///         METHOD: CHANGE VISIBILITY SURVEY
-/// **************************************************
 }

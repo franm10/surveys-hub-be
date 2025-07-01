@@ -11,4 +11,6 @@ public interface QuestionService {
 
     List<QuestionResponse> getQuestionsFromPublicSurvey(String surveyId);
 
+    List<QuestionResponse> getQuestionsFromSurveyByAdmin(String surveyId);
+
 }

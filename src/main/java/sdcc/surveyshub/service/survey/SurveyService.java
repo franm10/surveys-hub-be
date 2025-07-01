@@ -51,4 +51,8 @@ public interface SurveyService {
 
     SurveyResponse getSurvey(String surveyId);
 
+/// ADMIN SERVICE
+    List<SurveyResponse> getAllSurveys();
+
+    void deleteSurvey(String surveyId);
 }

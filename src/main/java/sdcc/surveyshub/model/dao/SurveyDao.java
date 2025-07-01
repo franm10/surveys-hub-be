@@ -57,6 +57,24 @@ public class SurveyDao {
         return Optional.of(survey);
     }
 
+    /** Trova tutte le survey */
+    public List<Survey> findAll() {
+        return execute(
+                () ->   firestore.collection("surveys")
+                        .get()
+                        .get()
+                        .getDocuments()
+                        .stream()
+                        .map(doc -> {
+                            Survey s = doc.toObject(Survey.class);
+                            checkAndCloseIfExpired(s);
+                            return s;
+                        })
+                        .toList(),
+                "finding all surveys"
+        );
+    }
+
     /** Trova tutte le survey pubblicate da un utente */
     public List<Survey> findAllByOwnerId(String ownerId) {
         return execute(
