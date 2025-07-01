@@ -13,6 +13,7 @@ import sdcc.surveyshub.exception.FirestoreIOException;
 import sdcc.surveyshub.utils.DateUtils;
 import sdcc.surveyshub.utils.enums.Status;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
@@ -93,6 +94,36 @@ public class SurveyDao {
                 String.format("finding surveys by invitedEmail %s", email)
         );
     }
+
+    /** Trova tutte le survey a cui 'user.uid' ha già risposto */
+    public List<Survey> findAllWithSubmissionByUser(String uid) {
+        return execute(
+                () -> {
+                    List<QueryDocumentSnapshot> documents = firestore.collection("surveys")
+                            .get()
+                            .get()
+                            .getDocuments();
+
+                    List<Survey> result = new ArrayList<>();
+
+                    for (QueryDocumentSnapshot doc : documents) {
+                        DocumentReference submissionRef = doc.getReference()
+                                .collection("submissions")
+                                .document(uid);
+
+                        if (submissionRef.get().get().exists()) {
+                            Survey s = doc.toObject(Survey.class);
+                            checkAndCloseIfExpired(s);
+                            result.add(s);
+                        }
+                    }
+
+                    return result;
+                },
+                String.format("finding surveys with submission by uid %s", uid)
+        );
+    }
+
 
     /** Trova tutte le survey a cui 'email' può rispondere o ha già risposto */
     public List<Survey> findAllWhereUserIsInvitedAndIsOpen(String email) {

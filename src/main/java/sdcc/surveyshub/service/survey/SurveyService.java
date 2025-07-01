@@ -43,6 +43,8 @@ public interface SurveyService {
 
     List<SurveyResponse> getAllSurveysWhereUserIsInvited(User user);
 
+    List<SurveyResponse> getAllSurveysWhereUserResponse(User user);
+
     List<SurveyResponse> getAllOpenSurveysWhereUserIsInvited(User user);
 
     List<SurveyResponse> getAllPublicSurveys();

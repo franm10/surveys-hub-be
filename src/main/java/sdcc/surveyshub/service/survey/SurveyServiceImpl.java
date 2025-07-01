@@ -313,6 +313,14 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
+    public List<SurveyResponse> getAllSurveysWhereUserResponse(User user) {
+        return surveyDao.findAllWithSubmissionByUser(user.uid())
+                .stream()
+                .map(surveyMapper::toResponseWithoutSensitiveData)
+                .toList();
+    }
+
+    @Override
     public List<SurveyResponse> getAllOpenSurveysWhereUserIsInvited(User user) {
         return surveyDao.findAllWhereUserIsInvitedAndIsOpen(user.email())
                 .stream()

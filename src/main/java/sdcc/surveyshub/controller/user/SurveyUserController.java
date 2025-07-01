@@ -71,4 +71,11 @@ public class SurveyUserController {
         return ResponseEntity.ok(ApiResponse.build("200 OK", surveys));
     }
 
+    @GetMapping("/submitted/get-all")
+    public ResponseEntity<ApiResponse<?>> getAllSurveysOpenWhereUserResponse(@AuthenticationPrincipal UserPrincipal user) {
+        log.info("[SurveyAPI][getAllSurveysOpenWhereUserIsInvited] Request to get all 'open' invited surveys from {}", user.getEmail());
+        List<SurveyResponse> surveys = surveyService.getAllSurveysWhereUserResponse(userMapper.toRecord(user));
+        return ResponseEntity.ok(ApiResponse.build("200 OK", surveys));
+    }
+
 }
